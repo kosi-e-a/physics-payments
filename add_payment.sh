@@ -35,8 +35,10 @@ add_payment() {
                                                                                         done
 
                                                                                         echo ""
-                                                                                        echo "Pushing to GitHub..."
+                                                                                        echo "Syncing with GitHub..."
                                                                                         cd "$HOME/physics_payments"
+                                                                                        git fetch origin
+                                                                                        git checkout --ours physics_payments.csv
                                                                                         git add .
                                                                                         git commit -m "Update payments - $(date +%Y-%m-%d)"
                                                                                         git push
