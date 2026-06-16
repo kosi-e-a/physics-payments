@@ -1,6 +1,4 @@
-#!/bin/bash
-
-CSV_FILE="$HOME/physics_payments/physics_payments.csv"
+SV_FILE="$HOME/physics_payments/physics_payments.csv"
 
 add_payment() {
     read -p "Enter student name: " name
@@ -19,27 +17,31 @@ add_payment() {
 
                                                         date=$(date +%Y-%m-%d)
 
-                                                            echo "$name,$amount,$method,$date" >> "$CSV_FILE"
-                                                                echo "✅ $name added successfully!"
-                                                                }
+                                                            # Count existing data rows (total lines minus header) to get next number
+                                                                last_no=$(($(wc -l < "$CSV_FILE") - 1))
+                                                                    next_no=$((last_no + 1))
 
-                                                                echo "===== Physics Payment Manager ====="
+                                                                        echo "$next_no,$name,$amount,$method,$date" >> "$CSV_FILE"
+                                                                            echo "✅ $name added successfully!"
+                                                                            }
 
-                                                                while true; do
-                                                                    add_payment
+                                                                            echo "===== Physics Payment Manager ====="
 
-                                                                        read -p "Add another student? (yes/no): " another
-                                                                            if [ "$another" != "yes" ]; then
-                                                                                    break
-                                                                                        fi
-                                                                                        done
+                                                                            while true; do
+                                                                                add_payment
 
-                                                                                        echo ""
-                                                                                        echo "Pushing to GitHub..."
-                                                                                        cd "$HOME/physics_payments"
-                                                                                        git add .
-                                                                                        git commit -m "Update payments - $(date +%Y-%m-%d)"
-                                                                                        git push --force
+                                                                                    read -p "Add another student? (yes/no): " another
+                                                                                        if [ "$another" != "yes" ]; then
+                                                                                                break
+                                                                                                    fi
+                                                                                                    done
 
-                                                                                        echo ""
-                                                                                        echo "✅ All done! Payments saved and pushed to GitHub!"
+                                                                                                    echo ""
+                                                                                                    echo "Pushing to GitHub..."
+                                                                                                    cd "$HOME/physics_payments"
+                                                                                                    git add .
+                                                                                                    git commit -m "Update payments - $(date +%Y-%m-%d)"
+                                                                                                    git push
+
+                                                                                                    echo ""
+                                                                                                    echo "✅ All done! Payments saved and pushed to GitHub!"
